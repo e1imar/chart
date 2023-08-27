@@ -20,7 +20,7 @@ export default function CalendarContainer() {
   const {date, setDate} = useContext(Store) as IStore,
   today = new Date,
   monthBefore = sub(today, {months: 1}),
-  twoMonthBef = sub(today, {months: 2}),
+  // twoMonthBef = sub(today, {months: 2}),
   minusQuart = subQuarters(today, 1),
   minusYear = sub(today, {years: 1}),
   yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000),

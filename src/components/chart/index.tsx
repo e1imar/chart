@@ -10,10 +10,9 @@ type Props = {
   data: Result[]
   range: Range
   setDate: IStore['setDate']
-  setRange: IStore['setRange']
 }
 
-export function Chart({data, range, setDate, setRange}: Props) {
+export function Chart({data, range, setDate}: Props) {
   const options: Highcharts.Options = {
     colors: ['blue'],
     title: {
@@ -65,49 +64,49 @@ export function Chart({data, range, setDate, setRange}: Props) {
     },
     chart: {
       type: 'column',
-      events: {
-        drilldown: function (e) {
-          if (!e.seriesOptions) {
+      // events: {
+      //   drilldown: function (e) {
+      //     if (!e.seriesOptions) {
 
-            const chart = this,
-            drilldowns = {
-              Animals: {
-                name: 'Animals',
-                data: [
-                  ['Cows', 2],
-                  ['Sheep', 3]
-                ]
-              },
-              Fruits: {
-                name: 'Fruits',
-                data: [
-                  ['Apples', 5],
-                  ['Oranges', 7],
-                  ['Bananas', 2]
-                ]
-              },
-              Cars: {
-                name: 'Cars',
-                data: [
-                  ['Toyota', 1],
-                  ['Volkswagen', 2],
-                  ['Opel', 5]
-                ]
-              }
-            }
-            // series = drilldowns[e.point.name];
+      //       const chart = this,
+      //       drilldowns = {
+      //         Animals: {
+      //           name: 'Animals',
+      //           data: [
+      //             ['Cows', 2],
+      //             ['Sheep', 3]
+      //           ]
+      //         },
+      //         Fruits: {
+      //           name: 'Fruits',
+      //           data: [
+      //             ['Apples', 5],
+      //             ['Oranges', 7],
+      //             ['Bananas', 2]
+      //           ]
+      //         },
+      //         Cars: {
+      //           name: 'Cars',
+      //           data: [
+      //             ['Toyota', 1],
+      //             ['Volkswagen', 2],
+      //             ['Opel', 5]
+      //           ]
+      //         }
+      //       }
+      //       series = drilldowns[e.point.name];
 
-            // Show the loading label
-            chart.showLoading('Simulating Ajax ...');
+      //       // Show the loading label
+      //       chart.showLoading('Simulating Ajax ...');
 
-            // setTimeout(function () {
-            //   chart.hideLoading();
-            //   chart.addSeriesAsDrilldown(e.point, series);
-            //   chart.
-            // }, 1000);
-          }
-        }
-      }
+      //       setTimeout(function () {
+      //         chart.hideLoading();
+      //         chart.addSeriesAsDrilldown(e.point, series);
+      //         chart.
+      //       }, 1000);
+      //     }
+      //   }
+      // }
     },
   }
 

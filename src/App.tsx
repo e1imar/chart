@@ -63,6 +63,6 @@ export default function App() {
       </div>
     </div>
     {sum && <div style={{color: '#fff'}}>Общая сумма за выбранный период: {formatter(sum)}</div>}
-    <Chart data={data?.result ?? []} range={range} setDate={setDate} setRange={setRange}/>
+    <Chart data={data?.result ?? []} range={range} setDate={setDate}/>
   </Store.Provider>
 }
