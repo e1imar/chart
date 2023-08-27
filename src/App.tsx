@@ -5,7 +5,6 @@ import numeral from 'numeral'
 import format from 'date-fns/format'
 import { Chart } from './components/chart'
 import Select from 'react-select'
-import mockData from './mockData.json'
 
 export type IStore = {
   date: [Date, Date]
@@ -41,7 +40,7 @@ rangeOptions = [
 export default function App() {
   const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
   [range, setRange] = useState<Range>('d'),
-  [data, setData] = useState<fetchedData | null>(mockData),
+  [data, setData] = useState<fetchedData | null>(null),
   [selectedOption] = useState(rangeOptions[1]),
   sum = data?.resume.sum
 
