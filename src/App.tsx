@@ -45,7 +45,7 @@ export default function App() {
   sum = data?.resume.sum
 
   useEffect(() => {
-    fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
+    fetch(`${import.meta.env.VITE_API_URL}/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
     .then(res => res.json())
     .then(setData)
   }, [date, range])
