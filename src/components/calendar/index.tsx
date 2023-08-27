@@ -17,7 +17,7 @@ import {
 } from 'date-fns';
 
 export default function CalendarContainer() {
-  const {setDate} = useContext(Store) as IStore,
+  const {date, setDate} = useContext(Store) as IStore,
   today = new Date,
   monthBefore = sub(today, {months: 1}),
   twoMonthBef = sub(today, {months: 2}),
@@ -33,6 +33,7 @@ export default function CalendarContainer() {
         if (Array.isArray(value) && value[0] && value[1]) setDate([dateToString(value[0]), dateToString(value[1])])
       }
     }
+    locale='ru'
     selectRange/>
     <div>
       <button type='button' onClick={() => setDate([dateToString(yesterday), dateToString(yesterday)])}>вчера</button>
