@@ -15,7 +15,8 @@
     "numeral": "^2.0.6",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-select": "^5.7.4"
   },
   "devDependencies": {
     "@types/highcharts": "^7.0.0",

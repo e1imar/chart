@@ -1,17 +1,17 @@
 import { createContext, useEffect, useState } from 'react'
 import Calendar from './components/calendar'
-import { fetchedData } from './types'
+import { Range, fetchedData } from './types'
 import numeral from 'numeral'
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import format from 'date-fns/format'
-import ru from 'date-fns/locale/ru'
+import { Chart } from './components/chart'
+import Select from 'react-select'
+import mockData from './mockData.json'
 
 export type IStore = {
   date: [Date, Date]
   setDate: (dates: [Date, Date]) => void
-  range: string
-  setRange: (range: string) => void
+  range: Range
+  setRange: (range: 'd' | 'h' | 'ms' | 'w-mon') => void
   data: fetchedData | null
 }
 
@@ -29,39 +29,32 @@ formatter = (num: number) => {
     }
     return acc + abbr + sum
   })
-}
+},
+
+rangeOptions = [
+  { value: 'h' as Range, label: 'Час' },
+  { value: 'd' as Range, label: 'День' },
+  { value: 'w-mon' as Range, label: 'Неделя' },
+  { value: 'ms' as Range, label: 'Месяц' }
+]
 
 export default function App() {
   const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
-  [range, setRange] = useState('w-mon'),
-  [data, setData] = useState<fetchedData | null>(null),
-  sum = data?.resume.sum,
-  options = data ? {
-    xAxis: {categories: data.result.map(({date}) => {
-      switch (range) {
-        case 'h': return format(new Date(date), 'dd MMM H:mm', {locale: ru})
-        case 'ms': return format(new Date(date), 'MMM y', {locale: ru})
-        case 'w-mon': return format(new Date(date), 'wo', {locale: ru}) + ' неделя'
-
-        default: return format(new Date(date), 'dd MMM', {locale: ru})
-      }
-    })},
-    series: [{type: 'column', data: data.result.map(e => e.sum)}]
-  } : null
+  [range, setRange] = useState<Range>('h'),
+  [data, setData] = useState<fetchedData | null>(mockData),
+  [selectedOption] = useState(rangeOptions[0]),
+  sum = data?.resume.sum
 
   useEffect(() => {
-    fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
-    .then(res => res.json())
-    .then(setData)
+    // fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
+    // .then(res => res.json())
+    // .then(setData)
   }, [date, range])
 
   return <Store.Provider value={{date, setDate, range, setRange, data}}>
-    <h1>{data?.title}</h1>
     <Calendar/>
+    <Select options={rangeOptions} defaultValue={selectedOption} onChange={e => e?.value && setRange(e.value)}/>
     {sum && <div>Общая сумма за выбранный период: {formatter(sum)}</div>}
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options}
-    />
+    <Chart data={data?.result ?? []} range={range} setDate={setDate} setRange={setRange}/>
   </Store.Provider>
 }

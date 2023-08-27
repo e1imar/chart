@@ -16,3 +16,5 @@ export type Result = {
 export type Resume = {
   sum: number;
 }
+
+export type Range = 'd' | 'h' | 'ms' | 'w-mon'
