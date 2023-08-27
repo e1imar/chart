@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import './index.css'
-import { IStore, Store, dateToString } from '../../App';
+import { IStore, Store,  } from '../../App';
 import {
   previousMonday,
   previousSunday,
@@ -29,25 +29,26 @@ export default function CalendarContainer() {
   
   return <div>
     <Calendar
+    value={date}
     onChange={value => {
-        if (Array.isArray(value) && value[0] && value[1]) setDate([dateToString(value[0]), dateToString(value[1])])
+        if (Array.isArray(value) && value[0] && value[1]) setDate([value[0], (value[1])])
       }
     }
     locale='ru'
     selectRange/>
     <div>
-      <button type='button' onClick={() => setDate([dateToString(yesterday), dateToString(yesterday)])}>вчера</button>
-      <button type='button' onClick={() => setDate([dateToString(beforeYest), dateToString(beforeYest)])}>позавчера</button>
-      <button type='button' onClick={() => setDate([dateToString(bBYest), dateToString(bBYest)])}>2 дня назад</button>
-      <button type='button' onClick={() => setDate([dateToString(previousMonday(today)), dateToString(today)])}>текущая неделя</button>
-      <button type='button' onClick={() => setDate([dateToString(previousMonday(sub(today, {weeks: 1}))), dateToString(previousSunday(today))])}>Прошлая неделя</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfMonth(today)), dateToString(today)])}>текущий месяц</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfMonth(monthBefore)), dateToString(lastDayOfMonth(monthBefore))])}>прошлый месяц</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfMonth(twoMonthBef)), dateToString(lastDayOfMonth(twoMonthBef))])}>позапрошлый месяц</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfQuarter(today)), dateToString(today)])}>текущий квартал</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfQuarter(minusQuart)), dateToString(endOfQuarter(minusQuart))])}>прошлый квартал</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfYear(today)), dateToString(today)])}>текущий год</button>
-      <button type='button' onClick={() => setDate([dateToString(startOfYear(minusYear)), dateToString(endOfYear(minusYear))])}>прошлый год</button>
+      <button type='button' onClick={() => setDate([yesterday, yesterday])}>вчера</button>
+      <button type='button' onClick={() => setDate([beforeYest, beforeYest])}>позавчера</button>
+      <button type='button' onClick={() => setDate([bBYest, bBYest])}>2 дня назад</button>
+      <button type='button' onClick={() => setDate([previousMonday(today), today])}>текущая неделя</button>
+      <button type='button' onClick={() => setDate([previousMonday(sub(today, {weeks: 1})), previousSunday(today)])}>Прошлая неделя</button>
+      <button type='button' onClick={() => setDate([startOfMonth(today), today])}>текущий месяц</button>
+      <button type='button' onClick={() => setDate([startOfMonth(monthBefore), lastDayOfMonth(monthBefore)])}>прошлый месяц</button>
+      <button type='button' onClick={() => setDate([startOfMonth(twoMonthBef), lastDayOfMonth(twoMonthBef)])}>позапрошлый месяц</button>
+      <button type='button' onClick={() => setDate([startOfQuarter(today), today])}>текущий квартал</button>
+      <button type='button' onClick={() => setDate([startOfQuarter(minusQuart), endOfQuarter(minusQuart)])}>прошлый квартал</button>
+      <button type='button' onClick={() => setDate([startOfYear(today), today])}>текущий год</button>
+      <button type='button' onClick={() => setDate([startOfYear(minusYear), endOfYear(minusYear)])}>прошлый год</button>
     </div>
   </div>
 }

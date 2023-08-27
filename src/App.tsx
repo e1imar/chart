@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
 import Calendar from './components/calendar'
-import mockData from './mockData.json'
 import { fetchedData } from './types'
 import numeral from 'numeral'
 import * as Highcharts from 'highcharts'
@@ -9,16 +8,14 @@ import format from 'date-fns/format'
 import ru from 'date-fns/locale/ru'
 
 export type IStore = {
-  date: string[]
-  setDate: (dates: string[]) => void
+  date: [Date, Date]
+  setDate: (dates: [Date, Date]) => void
   range: string
   setRange: (range: string) => void
-  data: fetchedData
+  data: fetchedData | null
 }
 
 export const Store = createContext<IStore | null>(null),
-
-dateToString = (date: Date) => format(date, 'yyyy-MM-dd'),
 
 formatter = (num: number) => {
   const stringArray = numeral(num).format().split(',')
@@ -34,14 +31,12 @@ formatter = (num: number) => {
   })
 }
 
-
-const today = dateToString(new Date)
-
 export default function App() {
-  const [date, setDate] = useState([today, today]),
-  [range, setRange] = useState('d'),
-  [data, setData] = useState(mockData),
-  options = {
+  const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
+  [range, setRange] = useState('w-mon'),
+  [data, setData] = useState<fetchedData | null>(null),
+  sum = data?.resume.sum,
+  options = data ? {
     xAxis: {categories: data.result.map(({date}) => {
       switch (range) {
         case 'h': return format(new Date(date), 'dd MMM H:mm', {locale: ru})
@@ -52,17 +47,18 @@ export default function App() {
       }
     })},
     series: [{type: 'column', data: data.result.map(e => e.sum)}]
-  }
+  } : null
 
   useEffect(() => {
-    // fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${date[0]}&stop=${date[1]}`)
-    console.log(date)
+    fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
+    .then(res => res.json())
+    .then(setData)
   }, [date, range])
 
   return <Store.Provider value={{date, setDate, range, setRange, data}}>
-    <h1>{data.title}</h1>
+    <h1>{data?.title}</h1>
     <Calendar/>
-    <div>Общая сумма за выбранный период: {formatter(data.resume.sum)}</div>
+    {sum && <div>Общая сумма за выбранный период: {formatter(sum)}</div>}
     <HighchartsReact
       highcharts={Highcharts}
       options={options}
