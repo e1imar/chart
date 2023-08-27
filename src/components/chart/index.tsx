@@ -3,8 +3,8 @@ import HighchartsReact from 'highcharts-react-official'
 import ru from 'date-fns/locale/ru'
 import { Range, Result } from '../../types'
 import format from 'date-fns/format'
-// import { useRef } from 'react'
 import { IStore } from '../../App'
+import 'highcharts/css/themes/dark-unica.css'
 
 type Props = {
   data: Result[]
@@ -14,19 +14,17 @@ type Props = {
 }
 
 export function Chart({data, range, setDate, setRange}: Props) {
-  // const chartComponentRef = useRef<HighchartsReact.RefObject>(null),
   const options: Highcharts.Options = {
-    title: {text: 'Выручка'},
-    // xAxis: {categories: data.map(({date}) => {
-    //   switch (range) {
-    //     case 'h': return format(new Date(date), 'dd MMM H:mm', {locale: ru})
-    //     case 'ms': return format(new Date(date), 'MMM y', {locale: ru})
-    //     case 'w-mon': return format(new Date(date), 'wo', {locale: ru}) + ' неделя'
-
-    //     default: return format(new Date(date), 'dd MMM', {locale: ru})
-    //   }
-    // })},
-    xAxis: {type: 'category'},
+    colors: ['blue'],
+    title: {
+      text: 'Выручка',
+      style: {color: 'rgba(255, 255, 255, 0.87)'}
+    },
+    subtitle: {style: {color: 'rgba(255, 255, 255, 0.87)'}},
+    xAxis: {
+      type: 'category',
+      labels: {style: {color: '#fff'}}
+    },
     legend: {
       enabled: false
     },
@@ -116,6 +114,5 @@ export function Chart({data, range, setDate, setRange}: Props) {
   return <HighchartsReact
     highcharts={Highcharts}
     options={options}
-    // ref={chartComponentRef}
   />
 }

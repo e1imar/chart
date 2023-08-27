@@ -27,7 +27,14 @@ export default function CalendarContainer() {
   beforeYest = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
   bBYest = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
   
-  return <div>
+  return <div
+  style={{display:
+  'flex', justifyContent:
+  'space-around', marginBottom:
+  '20px', marginRight:
+  '20px',
+  flexGrow: 1,
+  flexWrap: 'wrap'}}>
     <Calendar
     value={date}
     onChange={value => {
@@ -37,18 +44,28 @@ export default function CalendarContainer() {
     locale='ru'
     selectRange/>
     <div>
-      <button type='button' onClick={() => setDate([yesterday, yesterday])}>вчера</button>
-      <button type='button' onClick={() => setDate([beforeYest, beforeYest])}>позавчера</button>
-      <button type='button' onClick={() => setDate([bBYest, bBYest])}>2 дня назад</button>
-      <button type='button' onClick={() => setDate([previousMonday(today), today])}>текущая неделя</button>
-      <button type='button' onClick={() => setDate([previousMonday(sub(today, {weeks: 1})), previousSunday(today)])}>Прошлая неделя</button>
-      <button type='button' onClick={() => setDate([startOfMonth(today), today])}>текущий месяц</button>
-      <button type='button' onClick={() => setDate([startOfMonth(monthBefore), lastDayOfMonth(monthBefore)])}>прошлый месяц</button>
-      <button type='button' onClick={() => setDate([startOfMonth(twoMonthBef), lastDayOfMonth(twoMonthBef)])}>позапрошлый месяц</button>
-      <button type='button' onClick={() => setDate([startOfQuarter(today), today])}>текущий квартал</button>
-      <button type='button' onClick={() => setDate([startOfQuarter(minusQuart), endOfQuarter(minusQuart)])}>прошлый квартал</button>
-      <button type='button' onClick={() => setDate([startOfYear(today), today])}>текущий год</button>
-      <button type='button' onClick={() => setDate([startOfYear(minusYear), endOfYear(minusYear)])}>прошлый год</button>
+      <div>
+        <button type='button' onClick={() => setDate([yesterday, yesterday])}>вчера</button>
+        <button type='button' onClick={() => setDate([beforeYest, beforeYest])}>позавчера</button>
+        <button type='button' onClick={() => setDate([bBYest, bBYest])}>2 дня назад</button>
+      </div>
+      <div>
+        <button type='button' onClick={() => setDate([previousMonday(today), today])}>текущая неделя</button>
+        <button type='button' onClick={() => setDate([previousMonday(sub(today, {weeks: 1})), previousSunday(today)])}>Прошлая неделя</button>
+      </div>
+      <div>
+        <button type='button' onClick={() => setDate([startOfMonth(today), today])}>текущий месяц</button>
+        <button type='button' onClick={() => setDate([startOfMonth(monthBefore), lastDayOfMonth(monthBefore)])}>прошлый месяц</button>
+        {/* <button type='button' onClick={() => setDate([startOfMonth(twoMonthBef), lastDayOfMonth(twoMonthBef)])}>позапрошлый месяц</button> */}
+      </div>
+      <div>
+        <button type='button' onClick={() => setDate([startOfQuarter(today), today])}>текущий квартал</button>
+        <button type='button' onClick={() => setDate([startOfQuarter(minusQuart), endOfQuarter(minusQuart)])}>прошлый квартал</button>
+      </div>
+      <div>
+        <button type='button' onClick={() => setDate([startOfYear(today), today])}>текущий год</button>
+        <button type='button' onClick={() => setDate([startOfYear(minusYear), endOfYear(minusYear)])}>прошлый год</button>
+      </div>
     </div>
   </div>
 }

@@ -40,21 +40,29 @@ rangeOptions = [
 
 export default function App() {
   const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
-  [range, setRange] = useState<Range>('h'),
+  [range, setRange] = useState<Range>('d'),
   [data, setData] = useState<fetchedData | null>(mockData),
-  [selectedOption] = useState(rangeOptions[0]),
+  [selectedOption] = useState(rangeOptions[1]),
   sum = data?.resume.sum
 
   useEffect(() => {
-    // fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
-    // .then(res => res.json())
-    // .then(setData)
+    fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
+    .then(res => res.json())
+    .then(setData)
   }, [date, range])
 
   return <Store.Provider value={{date, setDate, range, setRange, data}}>
-    <Calendar/>
-    <Select options={rangeOptions} defaultValue={selectedOption} onChange={e => e?.value && setRange(e.value)}/>
-    {sum && <div>Общая сумма за выбранный период: {formatter(sum)}</div>}
+    <div style={{display: 'flex', flexWrap: 'wrap'}}>
+      <Calendar/>
+      <div style={{margin: '10px', marginRight: '30px'}}>
+        Разделение по времени:
+        <Select
+        options={rangeOptions}
+        defaultValue={selectedOption}
+        onChange={e => e?.value && setRange(e.value)}/>
+      </div>
+    </div>
+    {sum && <div style={{color: '#fff'}}>Общая сумма за выбранный период: {formatter(sum)}</div>}
     <Chart data={data?.result ?? []} range={range} setDate={setDate} setRange={setRange}/>
   </Store.Provider>
 }
