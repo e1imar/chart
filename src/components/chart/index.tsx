@@ -5,14 +5,16 @@ import { Range, Result } from '../../types'
 import format from 'date-fns/format'
 import { IStore } from '../../App'
 import 'highcharts/css/themes/dark-unica.css'
+import { lastDayOfMonth, lastDayOfWeek } from 'date-fns'
 
 type Props = {
   data: Result[]
   range: Range
   setDate: IStore['setDate']
+  setRange: IStore['setRange']
 }
 
-export function Chart({data, range, setDate}: Props) {
+export function Chart({data, range, setDate, setRange}: Props) {
   const options: Highcharts.Options = {
     colors: ['blue'],
     title: {
@@ -36,7 +38,14 @@ export function Chart({data, range, setDate}: Props) {
           drilldown: 'true',
           events: {
             click: () => {
-              setDate([new Date(e.date), new Date(e.date)])
+              let until, newRange: Range
+              switch (range) {
+                case 'ms': until = lastDayOfMonth(new Date(e.date)), newRange = 'w-mon'; break
+                case 'w-mon': until = lastDayOfWeek(new Date(e.date), {locale: ru}), newRange = 'd'; break
+                default: until = new Date(e.date), newRange = 'h'
+              }
+              setDate([new Date(e.date), until])
+              setRange(newRange)
             }
           }
         }

@@ -10,7 +10,7 @@ export type IStore = {
   date: [Date, Date]
   setDate: (dates: [Date, Date]) => void
   range: Range
-  setRange: (range: 'd' | 'h' | 'ms' | 'w-mon') => void
+  setRange: (range: Range) => void
   data: fetchedData | null
 }
 
@@ -41,8 +41,15 @@ export default function App() {
   const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
   [range, setRange] = useState<Range>('d'),
   [data, setData] = useState<fetchedData | null>(null),
-  [selectedOption] = useState(rangeOptions[1]),
   sum = data?.resume.sum
+  let selectedOption
+  
+  switch (range) {
+    case 'h': selectedOption = rangeOptions[0]; break
+    case 'd': selectedOption = rangeOptions[1]; break
+    case 'w-mon': selectedOption = rangeOptions[2]; break
+    case 'ms': selectedOption = rangeOptions[3]; break
+  }
 
   useEffect(() => {
     fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
@@ -56,12 +63,12 @@ export default function App() {
       <div style={{margin: '10px', marginRight: '30px'}}>
         Разделение по времени:
         <Select
+        value={selectedOption}
         options={rangeOptions}
-        defaultValue={selectedOption}
         onChange={e => e?.value && setRange(e.value)}/>
       </div>
     </div>
     {sum && <div style={{color: '#fff'}}>Общая сумма за выбранный период: {formatter(sum)}</div>}
-    <Chart data={data?.result ?? []} range={range} setDate={setDate}/>
+    <Chart data={data?.result ?? []} range={range} setDate={setDate} setRange={setRange}/>
   </Store.Provider>
 }
