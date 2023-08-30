@@ -4,7 +4,7 @@ import ru from 'date-fns/locale/ru'
 import { Range, Result } from '../../types'
 import format from 'date-fns/format'
 import { IStore } from '../../App'
-import 'highcharts/css/themes/dark-unica.css'
+// import 'highcharts/css/themes/dark-unica.css'
 import { lastDayOfMonth, lastDayOfWeek } from 'date-fns'
 
 type Props = {
@@ -32,12 +32,12 @@ export function Chart({data, range, setDate, setRange}: Props) {
     colors: ['blue'],
     title: {
       text: 'Выручка',
-      style: {color: 'rgba(255, 255, 255, 0.87)'}
+      // style: {color: 'rgba(255, 255, 255, 0.87)'}
     },
-    subtitle: {style: {color: 'rgba(255, 255, 255, 0.87)'}},
+    // subtitle: {style: {color: 'rgba(255, 255, 255, 0.87)'}},
     xAxis: {
       type: 'category',
-      labels: {style: {color: '#fff'}}
+      // labels: {style: {color: '#fff'}}
     },
     legend: {
       enabled: false
