@@ -12,6 +12,7 @@
 }
 
 body {
+  padding: 30px 20px;
   --color-background: #FAFAFA;
   --color-foreground: #1F2023;
   --color-shadow: #AAA;
@@ -41,12 +42,12 @@ button {
   /* font-size: 1em;
   font-weight: 500;
   font-family: inherit; */
-  background-color: #8cabd9;
+  background-color: #3f67bf;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  background-color: #0a244d;
+  background-color: hsl(210, 15%, 35%);
 }
 button:focus,
 button:focus-visible {
@@ -57,20 +58,8 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  /* button {
-    background-color: #f9f9f9;
-  } */
-  /* body {
-    --color-background: #1f2023;
-    --color-foreground: #efefef;
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  } */
-  /* body {
-    --color-background: #1f2023;
-    --color-foreground: #efefef;
-  } */
 }
+
 .react-toggle-track > * { 
   line-height: 10px !important;
   font-size: 14px;

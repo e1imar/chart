@@ -5,7 +5,6 @@ import numeral from 'numeral'
 import format from 'date-fns/format'
 import { Chart } from './components/chart'
 import Select from 'react-select'
-import mockData from './mockData.json'
 import Toggle from './components/toggle'
 
 export type IStore = {
@@ -42,7 +41,7 @@ rangeOptions = [
 export default function App() {
   const [date, setDate] = useState<[Date, Date]>([new Date, new Date]),
   [range, setRange] = useState<Range>('d'),
-  [data, setData] = useState<fetchedData | null>(mockData),
+  [data, setData] = useState<fetchedData | null>(null),
   sum = data?.resume.sum
   let selectedOption
   
@@ -53,25 +52,27 @@ export default function App() {
     case 'ms': selectedOption = rangeOptions[3]; break
   }
 
-  // useEffect(() => {
-  //   fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
-  //   .then(res => res.json())
-  //   .then(setData)
-  // }, [date, range])
+  useEffect(() => {
+    fetch(`http://shelter.bmsys.net:58600/api/dashboard/cash/?format=json&range=${range}&start=${format(date[0], 'yyyy-MM-dd')}&stop=${format(date[1], 'yyyy-MM-dd')}`)
+    .then(res => res.json())
+    .then(setData)
+  }, [date, range])
 
   return <Store.Provider value={{date, setDate, range, setRange, data}}>
-    <div style={{display: 'flex', flexWrap: 'wrap'}}>
+    <div style={{display: 'flex', flexWrap: 'wrap', marginBottom: '10px'}}>
       <Calendar/>
-      <div style={{margin: '10px', marginRight: '30px'}}>
+      <div style={{marginRight: '50px'}}>
         Разделение по времени:
-        <Select
-        value={selectedOption}
-        options={rangeOptions}
-        onChange={e => e?.value && setRange(e.value)}/>
+        <div style={{color: '#000', marginTop: '5px'}}>
+          <Select
+          value={selectedOption}
+          options={rangeOptions}
+          onChange={e => e?.value && setRange(e.value)}/>
+        </div>
       </div>
+      <div style={{margin: '10px', position: 'absolute', top: 0, right: 0}}><Toggle/></div>
     </div>
-    {sum && <div style={{color: '#fff'}}>Общая сумма за период с {date[0].toLocaleString()} по {date[1].toLocaleString()}: <span style={{fontWeight: 'bold', marginLeft: '20px'}}>{formatter(sum)}</span></div>}
+    {sum && <div style={{marginBottom: '10px'}}>Общая сумма за период с {date[0].toLocaleString()} по {date[1].toLocaleString()}: <span style={{fontWeight: 'bold'}}>{formatter(sum)}</span></div>}
     <Chart data={data?.result ?? []} range={range} setDate={setDate} setRange={setRange}/>
-    <div><Toggle/></div>
   </Store.Provider>
 }

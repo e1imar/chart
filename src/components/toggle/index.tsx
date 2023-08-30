@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import Toggle from "react-toggle"
 import useLocalStorage from 'use-local-storage'
 import "react-toggle/style.css"
+import './index.css'
 
 export default function DarkModeToggle() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches,

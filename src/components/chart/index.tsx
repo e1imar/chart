@@ -4,8 +4,8 @@ import ru from 'date-fns/locale/ru'
 import { Range, Result } from '../../types'
 import format from 'date-fns/format'
 import { IStore } from '../../App'
-// import 'highcharts/css/themes/dark-unica.css'
 import { lastDayOfMonth, lastDayOfWeek } from 'date-fns'
+import useLocalStorage from 'use-local-storage'
 
 type Props = {
   data: Result[]
@@ -28,17 +28,18 @@ const easeOutBounce = (pos: number) => {
 }
 
 export function Chart({data, range, setDate, setRange}: Props) {
-  const options: Highcharts.Options = {
-    colors: ['blue'],
+  const [dark] = useLocalStorage('dark', ''),
+  options: Highcharts.Options = {
+    colors: ['#3f67bf'],
     title: {
       text: 'Выручка',
-      // style: {color: 'rgba(255, 255, 255, 0.87)'}
+      style: {color: dark ? 'rgba(255, 255, 255, 0.87)' : ''}
     },
-    // subtitle: {style: {color: 'rgba(255, 255, 255, 0.87)'}},
     xAxis: {
       type: 'category',
-      // labels: {style: {color: '#fff'}}
+      labels: {style: {color: dark ? '#fff' : 'inherit'}}
     },
+    yAxis: {labels: {style: {color: dark ? '#fff' : 'inherit'}}},
     legend: {
       enabled: false
     },
@@ -86,6 +87,7 @@ export function Chart({data, range, setDate, setRange}: Props) {
         }
     },
     chart: {
+      backgroundColor: 'transparent',
       type: 'column',
       // events: {
       //   drilldown: function (e) {
